@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <Content />
       <ContentTable />
     </v-main>
   </v-app>
