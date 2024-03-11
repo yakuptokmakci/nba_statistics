@@ -2,8 +2,9 @@
   <v-data-table
     :items="items"
     loading-text="Loading... Please wait"
-    height="400"
+    height="300"
     item-value="name"
+    theme="dark"
   ></v-data-table>
 </template>
 
@@ -22,3 +23,9 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style>
+.v-data-table tbody tr:hover {
+  cursor: pointer;
+}
+</style>
