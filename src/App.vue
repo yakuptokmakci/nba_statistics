@@ -9,28 +9,28 @@
       </v-app>
     </div>
     <div class="row">
-      <Compare :players="filteredData" />
+      <Compare :players="players" />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { onMounted } from "vue";
-import ContentTable from "./components/ContentTable.vue";
-import Compare from "./components/Compare.vue";
+import { onMounted, ref } from "vue";
 
 export default {
   setup() {
+    const players = ref([]);
     onMounted(async () => {
       try {
         const response = await axios.get("src/assets/player_stats.json");
-        const filteredData = response.data.map((item) => item.Rk);
-        console.log(filteredData);
+        players.value = response.data;
+        console.log(players.value);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     });
+    return { players };
   },
 };
 </script>
