@@ -57,7 +57,13 @@
           <v-card-subtitle> The statistical Winner is </v-card-subtitle>
 
           <v-card-actions>
-            <v-btn color="orange-lighten-3" variant="text"> Explore </v-btn>
+            <v-btn
+              color="orange-lighten-3"
+              variant="text"
+              @click="compare_players"
+            >
+              Explore
+            </v-btn>
 
             <v-spacer></v-spacer>
 
@@ -72,12 +78,10 @@
               <v-divider></v-divider>
 
               <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than
-                he could deliver. You won't have time for sleeping, soldier, not
-                with all the bed making you'll be doing. Then we'll go with that
-                data file! Hey, you add a one and two zeros to that or we walk!
-                You're going to do his laundry? I've got to find a way to
-                escape.
+                According to early game statistics the winner is :
+              </v-card-text>
+              <v-card-text>
+                According to the late game statistics the winner is:
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -88,6 +92,7 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { ref } from "vue";
 
 const props = defineProps(["players"]);
@@ -109,5 +114,24 @@ const handleCompare = () => {
 const RemoveCompare = () => {
   compare_cards.value = false;
   isCompare.value = true;
+};
+
+const compare_players = async (selectedPlayer1, selectedPlayer2) => {
+  try {
+    const response = await axios.get("src/assets/player_stats.json");
+    const filteredPlayer1 = response.data.find(
+      (player) => player.Rk === selectedPlayer1
+    );
+    const filteredPlayer2 = response.data.find(
+      (player) => player.Rk === selectedPlayer2
+    );
+
+    console.log(filteredPlayer1, filteredPlayer2);
+
+    return { player1: filteredPlayer1, player2: filteredPlayer2 };
+  } catch (error) {
+    console.error("Error comparing players:", error);
+    return null;
+  }
 };
 </script>
